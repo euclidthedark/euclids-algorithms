@@ -1,6 +1,6 @@
 {
   "name": "euclids-algorithms",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "This is a library of data structures and algorithms to be consumed by application services.",
   "main": "index.js",
   "scripts": {
