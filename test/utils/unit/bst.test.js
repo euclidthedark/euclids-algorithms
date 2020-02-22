@@ -47,7 +47,7 @@ describe('./lib/bst', function () {
     });
   });
 
-  describe.only('.insert', function () {
+  describe('.insert', function () {
     context('when typeof value !== typeof `this.currentValue`', function () {
       const bst = new BST(value);
 
