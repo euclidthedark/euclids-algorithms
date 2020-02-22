@@ -1,4 +1,11 @@
-const BST = require('../../../lib/data-structures/bst');
+const { generateRandomNumberFrom1To100 } = require('../utils/helpers/generators');
+const BST = require('../../lib/data-structures/bst');
+
+function returnAnArrayWithNumbers () {
+  return new Array(10)
+    .fill(0)
+    .map(generateRandomNumberFrom1To100);
+}
 
 function itBehavesLikeItHasNullLeftNode (bst) {
   return (
@@ -16,8 +23,35 @@ function itBehavesLikeItHasNullRightNode (bst) {
   );
 }
 
+function itBehavesLikeItReturnsTrueForValuesInBst () {
+  const bst = new BST(generateRandomNumberFrom1To100());
+  const numbersToInsertInBst = returnAnArrayWithNumbers();
+
+  return (
+    it('returns true', function () {
+      numbersToInsertInBst.forEach((number) => bst.insert(number));
+
+      expect(numbersToInsertInBst).all.to.satisfy((number) => expect(bst.containes(number)).to.be.true);
+    })
+  );
+}
+
+function itBehavesLikeItReturnsFalseForValuesNotInBst () {
+  const bst = new BST(generateRandomNumberFrom1To100());
+  const numbersToInsertInBst = returnAnArrayWithNumbers();
+
+  return (
+    it('returns false', function () {
+      numbersToInsertInBst.forEach((number) => bst.insert(number));
+
+      expect(bst.containes(101)).to.be.false;
+    })
+  );
+}
+
 describe('./lib/bst', function () {
   const value = 20;
+  const bstTypeErrorMessage = 'Tree must contain values of the same type.';
 
   describe('contructor', function () {
     context('when instantiated with value', function () {
@@ -52,7 +86,7 @@ describe('./lib/bst', function () {
       const bst = new BST(value);
 
       it('throws TypeError', function () {
-        expect(() => bst.insert('asdf')).to.throw(TypeError, 'Tree must contain values of the same type.');
+        expect(() => bst.insert('asdf')).to.throw(TypeError, bstTypeErrorMessage);
       });
     });
     context('when typeof value === typeof `this.currentValue`', function () {
@@ -180,6 +214,34 @@ describe('./lib/bst', function () {
           expect(bst.leftNode.leftNode.currentValue).to.be.equal(1);
           expect(bst.leftNode.rightNode.currentValue).to.be.equal(8);
         });
+      });
+    });
+  });
+
+  describe('.containes', function () {
+    context('when typeof value !== typeof `this.currentValue`', function () {
+      const bst = new BST(10);
+
+      it('throws a `TypeError`', function () {
+        expect(() => bst.containes('asdf')).to.throw(TypeError, bstTypeErrorMessage);
+      });
+    });
+
+    context('when typeof value === typeof `this.currentValue`', function () {
+      context('and the BST has the value', function () {
+        itBehavesLikeItReturnsTrueForValuesInBst();
+        itBehavesLikeItReturnsTrueForValuesInBst();
+        itBehavesLikeItReturnsTrueForValuesInBst();
+        itBehavesLikeItReturnsTrueForValuesInBst();
+        itBehavesLikeItReturnsTrueForValuesInBst();
+      });
+
+      context('and the BST doesn\'t have the value', function () {
+        itBehavesLikeItReturnsFalseForValuesNotInBst();
+        itBehavesLikeItReturnsFalseForValuesNotInBst();
+        itBehavesLikeItReturnsFalseForValuesNotInBst();
+        itBehavesLikeItReturnsFalseForValuesNotInBst();
+        itBehavesLikeItReturnsFalseForValuesNotInBst();
       });
     });
   });
