@@ -52,7 +52,7 @@ describe('./lib/bst', function () {
       const bst = new BST(value);
 
       it('throws TypeError', function () {
-        expect(() => bst.insert('asdf')).to.throw('Tree must contain values of the same type.');
+        expect(() => bst.insert('asdf')).to.throw(TypeError, 'Tree must contain values of the same type.');
       });
     });
     context('when typeof value === typeof `this.currentValue`', function () {
@@ -87,6 +87,98 @@ describe('./lib/bst', function () {
           expect(bst.rightNode.currentValue).to.be.equal(23);
           expect(bst.rightNode.rightNode.currentValue).to.be.equal(27);
           expect(bst.rightNode.rightNode.rightNode.currentValue).to.be.equal(31);
+        });
+
+        it('builds tree 2', function () {
+          const bst = new BST(value);
+
+          bst.insert(23);
+          bst.insert(4);
+          bst.insert(2);
+          bst.insert(27);
+          bst.insert(31);
+          bst.insert(11);
+          bst.insert(7);
+
+          expect(bst.currentValue).to.be.equal(20);
+          // left node assertions
+          expect(bst.leftNode.currentValue).to.be.equal(4);
+          expect(bst.leftNode.leftNode.currentValue).to.be.equal(2);
+          expect(bst.leftNode.rightNode.currentValue).to.be.equal(11);
+          expect(bst.leftNode.rightNode.leftNode.currentValue).to.be.equal(7);
+          // right node assertions
+          expect(bst.rightNode.currentValue).to.be.equal(23);
+          expect(bst.rightNode.rightNode.currentValue).to.be.equal(27);
+          expect(bst.rightNode.rightNode.rightNode.currentValue).to.be.equal(31);
+        });
+
+        it('builds tree 3, with a different value', function () {
+          const bst = new BST(10);
+
+          bst.insert(11);
+          bst.insert(7);
+          bst.insert(33);
+          bst.insert(45);
+          bst.insert(1);
+          bst.insert(3);
+          bst.insert(20);
+
+          expect(bst.currentValue).to.be.equal(10);
+          // left node assertions
+          expect(bst.leftNode.currentValue).to.be.equal(7);
+          expect(bst.leftNode.leftNode.currentValue).to.be.equal(1);
+          expect(bst.leftNode.leftNode.rightNode.currentValue).to.be.equal(3);
+          // right node assertions
+          expect(bst.rightNode.currentValue).to.be.equal(11);
+          expect(bst.rightNode.rightNode.currentValue).to.be.equal(33);
+          expect(bst.rightNode.rightNode.rightNode.currentValue).to.be.equal(45);
+          expect(bst.rightNode.rightNode.leftNode.currentValue).to.be.equal(20);
+        });
+
+        it('builds tree 4, with a different value', function () {
+          const bst = new BST(10);
+
+          bst.insert(45);
+          bst.insert(20);
+          bst.insert(33);
+          bst.insert(11);
+          bst.insert(1);
+          bst.insert(3);
+          bst.insert(7);
+
+          expect(bst.currentValue).to.be.equal(10);
+          // left node assertions
+          expect(bst.leftNode.currentValue).to.be.equal(1);
+          expect(bst.leftNode.rightNode.currentValue).to.be.equal(3);
+          expect(bst.leftNode.rightNode.rightNode.currentValue).to.be.equal(7);
+          // right node assertions
+          expect(bst.rightNode.currentValue).to.be.equal(45);
+          expect(bst.rightNode.leftNode.currentValue).to.be.equal(20);
+          expect(bst.rightNode.leftNode.rightNode.currentValue).to.be.equal(33);
+          expect(bst.rightNode.leftNode.leftNode.currentValue).to.be.equal(11);
+        });
+
+        it('builds tree 5, with a different value', function () {
+          const bst = new BST(10);
+
+          bst.insert(11);
+          bst.insert(45);
+          bst.insert(99);
+          bst.insert(3);
+          bst.insert(1);
+          bst.insert(12);
+          bst.insert(8);
+
+          expect(bst.currentValue).to.be.equal(10);
+          // left node assertions
+          expect(bst.rightNode.currentValue).to.be.equal(11);
+          expect(bst.rightNode.rightNode.currentValue).to.be.equal(45);
+          expect(bst.rightNode.rightNode.rightNode.currentValue).to.be.equal(99);
+          expect(bst.rightNode.rightNode.leftNode.currentValue).to.be.equal(12);
+          // right node assertions
+          expect(bst.leftNode.currentValue).to.be.equal(3);
+          expect(bst.leftNode.leftNode.currentValue).to.be.equal(1);
+          expect(bst.leftNode.rightNode.currentValue).to.be.equal(8);
         });
       });
     });
